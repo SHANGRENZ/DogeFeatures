@@ -1,7 +1,5 @@
 # DogeFeatures
 
----
-
 一个Minecraft Spigot插件，包含一些小功能。
 
 #### 功能
@@ -29,6 +27,8 @@
 > ```yml
 > banvote.create
 > ```
+
+> 
 
 > 对玩家投票已创建的封禁 /banvote
 > 

@@ -22,7 +22,7 @@ public class DogeFeatures extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
-		System.out.println("FunnyFeatures Enabled!");
+		System.out.println("Visit DogeFeatures' source code on https://github.com/naiveDoge/DogeFeatures !");
 		this.saveDefaultConfig();
 		
 		//auto fill config.yml
@@ -40,6 +40,7 @@ public class DogeFeatures extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new EventPlayerJoin(), this);
 		Bukkit.getPluginManager().registerEvents(new EventPlayerLeave(), this);
 		Bukkit.getPluginManager().registerEvents(new EventEatFood(), this);
+		Bukkit.getPluginManager().registerEvents(new EventPlayerGamemodeChange(), this);
 		
 		if(this.getConfig().getBoolean("featureSettings.vote.restart")) Bukkit.getPluginCommand("restartvote").setExecutor(new EventRestartVoteCommand());
 		if(this.getConfig().getBoolean("featureSettings.vote.ban")) {
