@@ -1,0 +1,17 @@
+featureSettings: # Set value as false to disable them.
+ welcomeMessage: true
+ vote:
+  restart: true
+  ban: true
+ hideOp: true
+ pufferfish: true
+  
+voteSettings:
+ #restart settings
+ restartPercent: 80
+ restartTps: 10
+ useRestart: true # If your server has auto-restart script, please change it to false. 
+ #ban settings
+ banNeededPlayers: 10
+
+welcomeMessage: Welcome to this server!
