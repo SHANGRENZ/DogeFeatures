@@ -5,16 +5,23 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class DogeFeatures extends JavaPlugin {
-	
+
+	static Plugin plugin;
 	public static List<UUID> votedPlayersRestart;
 	public static ArrayList<BanWantedPlayersObj> banWantedPlayers;
 	
+	static Plugin getPlugin() {
+		return plugin;
+	}
+	
 	@Override
 	public void onEnable() {
+		plugin = this;
 		System.out.println("FunnyFeatures Enabled!");
 		this.saveDefaultConfig();
 		

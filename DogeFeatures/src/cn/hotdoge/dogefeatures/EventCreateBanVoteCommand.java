@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class EventCreateBanVoteCommand extends JavaPlugin implements CommandExecutor {
+public class EventCreateBanVoteCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -25,7 +25,7 @@ public class EventCreateBanVoteCommand extends JavaPlugin implements CommandExec
 			p.sendMessage("用法:/banvotecreate player 发起/删除一个封禁投票");
 			return true;
 		}
-		UUID targetPlayerUuid = this.getServer().getOfflinePlayer(targetPlayerName).getUniqueId();
+		UUID targetPlayerUuid = DogeFeatures.getPlugin().getServer().getOfflinePlayer(targetPlayerName).getUniqueId();
 		
 		//remove ban request
 		for(BanWantedPlayersObj pObj:DogeFeatures.banWantedPlayers) {

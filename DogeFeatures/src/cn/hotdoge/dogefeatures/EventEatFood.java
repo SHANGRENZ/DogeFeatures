@@ -13,12 +13,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 
-public class EventEatFood extends JavaPlugin implements Listener {
+public class EventEatFood implements Listener {
 	
 	@EventHandler
 	public void onPlayerItemConsume(PlayerItemConsumeEvent e) {
 		Player p = e.getPlayer();
-		if(new ItemStack(Material.PUFFERFISH).isSimilar(e.getItem()) && this.getConfig().getBoolean("featureSettings.pufferfish")) {
+		if(new ItemStack(Material.PUFFERFISH).isSimilar(e.getItem()) && DogeFeatures.getPlugin().getConfig().getBoolean("featureSettings.pufferfish")) {
 			e.setCancelled(true);
 			p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 0.5F, 1F);
 			p.sendTitle("干了 奥里给!", "干就完事了", 10, 70, 20);
@@ -30,7 +30,7 @@ public class EventEatFood extends JavaPlugin implements Listener {
 			p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 120, 1));
 			p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 140, 0));
 			
-			Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+			Bukkit.getScheduler().runTaskLater(DogeFeatures.getPlugin(), new Runnable() {
 				
 				@Override
 				public void run() {

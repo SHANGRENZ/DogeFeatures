@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class EventBanVoteCommand extends JavaPlugin implements CommandExecutor {
+public class EventBanVoteCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -24,7 +24,7 @@ public class EventBanVoteCommand extends JavaPlugin implements CommandExecutor {
 			p.sendMessage("用法:/banvote player 投票/取消投票封禁某个玩家");
 			return true;
 		}
-		UUID targetPlayerUuid = this.getServer().getOfflinePlayer(targetPlayerName).getUniqueId();
+		UUID targetPlayerUuid = DogeFeatures.getPlugin().getServer().getOfflinePlayer(targetPlayerName).getUniqueId();
 		
 		int x = 0;
 		for(BanWantedPlayersObj pObj:DogeFeatures.banWantedPlayers) {
@@ -39,17 +39,17 @@ public class EventBanVoteCommand extends JavaPlugin implements CommandExecutor {
 					}
 					y++;
 				}
-				int banNeededPlayers = this.getConfig().getInt("voteSettings.banNeededPlayers");
+				int banNeededPlayers = DogeFeatures.getPlugin().getConfig().getInt("voteSettings.banNeededPlayers");
 				DogeFeatures.banWantedPlayers.get(x).Voted.add(p.getUniqueId());
 				Bukkit.broadcastMessage(ChatColor.RED + "[封禁投票]" + ChatColor.WHITE + " 对玩家 " + ChatColor.YELLOW + targetPlayerName + " 的封禁投票数: " + ChatColor.DARK_RED + String.valueOf(pObj.Voted.size()) + "/" + String.valueOf(banNeededPlayers));
 				p.sendMessage("投票成功");
 				
 				if(pObj.Voted.size() >= banNeededPlayers) {
 					//ban a player
-					OfflinePlayer targetPlayerObj = this.getServer().getOfflinePlayer(pObj.Player);
+					OfflinePlayer targetPlayerObj = DogeFeatures.getPlugin().getServer().getOfflinePlayer(pObj.Player);
 					Bukkit.getBanList(org.bukkit.BanList.Type.NAME).addBan(targetPlayerObj.getName(), "Banned by vote plugin." , null, pObj.Creater.getName());
 					if(targetPlayerObj.isOnline()) {
-						this.getServer().getPlayer(pObj.Player).kickPlayer("You are banned from this server.");
+						DogeFeatures.getPlugin().getServer().getPlayer(pObj.Player).kickPlayer("You are banned from this server.");
 					}
 					Bukkit.broadcastMessage(ChatColor.RED + "[封禁投票] " + ChatColor.YELLOW + targetPlayerObj.getName() + ChatColor.RED + "已被封禁");
 					DogeFeatures.banWantedPlayers.remove(x);

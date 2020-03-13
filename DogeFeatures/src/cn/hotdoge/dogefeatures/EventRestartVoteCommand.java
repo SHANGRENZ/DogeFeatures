@@ -20,7 +20,7 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 
 import net.minecraft.server.v1_15_R1.MinecraftServer;
 
-public class EventRestartVoteCommand extends JavaPlugin implements CommandExecutor {
+public class EventRestartVoteCommand implements CommandExecutor {
 	
 	int restartTimeInt;
 	int restartTaskId;
@@ -44,10 +44,10 @@ public class EventRestartVoteCommand extends JavaPlugin implements CommandExecut
 		p.sendMessage("已投票");
 		
 		double sizeVoted = DogeFeatures.votedPlayersRestart.size();
-		double neededPercent = this.getConfig().getDouble("voteSettings.restartPercent");
-		double sizeAll = this.getServer().getOnlinePlayers().size();
+		double neededPercent = DogeFeatures.getPlugin().getConfig().getDouble("voteSettings.restartPercent");
+		double sizeAll = DogeFeatures.getPlugin().getServer().getOnlinePlayers().size();
 		double tpsNow = MinecraftServer.getServer().recentTps[0];
-		double tpsNeeded = this.getConfig().getDouble("voteSettings.restartTps");
+		double tpsNeeded = DogeFeatures.getPlugin().getConfig().getDouble("voteSettings.restartTps");
 		
 		Bukkit.broadcastMessage(ChatColor.GREEN + "[重启投票]" + ChatColor.WHITE + " 有小可爱希望重启服务器! " + ChatColor.YELLOW + String.valueOf((int)sizeVoted) + "/" + String.valueOf((int) Math.ceil(sizeAll * (neededPercent / 100))));
 		if(sizeVoted / sizeAll * 100 >= neededPercent) {
@@ -56,7 +56,7 @@ public class EventRestartVoteCommand extends JavaPlugin implements CommandExecut
 			} else {
 				Bukkit.broadcastMessage(ChatColor.GREEN + "[重启投票]" + ChatColor.YELLOW + " 服务器将在十秒后重启!");
 				restartTimeInt = 5;
-				Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+				Bukkit.getScheduler().runTaskTimer(DogeFeatures.getPlugin(), new Runnable() {
 					
 					@Override
 					public void run() {
@@ -68,7 +68,7 @@ public class EventRestartVoteCommand extends JavaPlugin implements CommandExecut
 						
 						if(restartTimeInt <= 0) {
 							Bukkit.getScheduler().cancelTask(restartTaskId);
-							if(EventRestartVoteCommand.super.getConfig().getBoolean("voteSettings.useRestart")) {
+							if(DogeFeatures.getPlugin().getConfig().getBoolean("voteSettings.useRestart")) {
 								restartServer();
 							} else {
 								Bukkit.shutdown();

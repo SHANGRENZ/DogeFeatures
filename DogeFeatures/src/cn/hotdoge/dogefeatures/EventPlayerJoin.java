@@ -6,23 +6,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class EventPlayerJoin extends JavaPlugin implements Listener {
+public class EventPlayerJoin implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		//welcome msg
-		if(this.getConfig().getBoolean("featureSettings.welcomeMessage")) {
+		if(DogeFeatures.getPlugin().getConfig().getBoolean("featureSettings.welcomeMessage")) {
 			if(!e.getPlayer().hasPlayedBefore()) {
-				e.getPlayer().sendMessage(this.getConfig().getString("welcomeMessage"));
+				e.getPlayer().sendMessage(DogeFeatures.getPlugin().getConfig().getString("welcomeMessage"));
 			}
 		}
 		
 		//hide op
-		if(this.getConfig().getBoolean("featureSettings.hideOp")) {
-			for(Player pInList:this.getServer().getOnlinePlayers()) {
+		if(DogeFeatures.getPlugin().getConfig().getBoolean("featureSettings.hideOp")) {
+			for(Player pInList:DogeFeatures.getPlugin().getServer().getOnlinePlayers()) {
 				if(pInList.isOp()) {
-					for(Player pInList1:this.getServer().getOnlinePlayers()) {
+					for(Player pInList1:DogeFeatures.getPlugin().getServer().getOnlinePlayers()) {
 						if(!pInList1.isOp()) {
-							pInList1.hidePlayer(this, pInList);
+							pInList1.hidePlayer(DogeFeatures.getPlugin(), pInList);
 						}
 					}
 				}
