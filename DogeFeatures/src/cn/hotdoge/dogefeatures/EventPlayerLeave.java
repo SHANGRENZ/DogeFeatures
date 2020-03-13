@@ -15,6 +15,7 @@ public class EventPlayerLeave implements Listener {
 		for(UUID uuidInList:DogeFeatures.votedPlayersRestart) {
 			if(uuidFromPlayer.equals(uuidInList)) {
 				DogeFeatures.votedPlayersRestart.remove(uuidInList);
+				break;
 			}
 		}
 	}
