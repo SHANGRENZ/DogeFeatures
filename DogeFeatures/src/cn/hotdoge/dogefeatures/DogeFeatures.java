@@ -41,6 +41,7 @@ public class DogeFeatures extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new EventPlayerLeave(), this);
 		Bukkit.getPluginManager().registerEvents(new EventEatFood(), this);
 		Bukkit.getPluginManager().registerEvents(new EventPlayerGamemodeChange(), this);
+		Bukkit.getPluginManager().registerEvents(new EventPlayerDie(), this);
 		
 		if(this.getConfig().getBoolean("featureSettings.vote.restart")) Bukkit.getPluginCommand("restartvote").setExecutor(new EventRestartVoteCommand());
 		if(this.getConfig().getBoolean("featureSettings.vote.ban")) {
