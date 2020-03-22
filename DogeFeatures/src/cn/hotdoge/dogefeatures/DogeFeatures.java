@@ -1,10 +1,17 @@
 package cn.hotdoge.dogefeatures;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarFlag;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,6 +21,7 @@ public class DogeFeatures extends JavaPlugin {
 	static Plugin plugin;
 	public static List<UUID> votedPlayersRestart;
 	public static ArrayList<BanWantedPlayersObj> banWantedPlayers;
+	public static Map<UUID, Location> ncovLocationsInfoMap;
 	
 	static Plugin getPlugin() {
 		return plugin;
@@ -36,17 +44,23 @@ public class DogeFeatures extends JavaPlugin {
 		
 		votedPlayersRestart = new ArrayList<UUID>();
 		banWantedPlayers = new ArrayList<BanWantedPlayersObj>();
+		ncovLocationsInfoMap = new HashMap<UUID, Location>();
 		
 		Bukkit.getPluginManager().registerEvents(new EventPlayerJoin(), this);
 		Bukkit.getPluginManager().registerEvents(new EventPlayerLeave(), this);
 		Bukkit.getPluginManager().registerEvents(new EventEatFood(), this);
 		Bukkit.getPluginManager().registerEvents(new EventPlayerGamemodeChange(), this);
 		Bukkit.getPluginManager().registerEvents(new EventPlayerDie(), this);
+		Bukkit.getPluginManager().registerEvents(new EventEntityDamageByEntity(), this);
+		Bukkit.getPluginManager().registerEvents(new EventPlayerMove(), this);
 		
 		if(this.getConfig().getBoolean("featureSettings.vote.restart")) Bukkit.getPluginCommand("restartvote").setExecutor(new EventRestartVoteCommand());
 		if(this.getConfig().getBoolean("featureSettings.vote.ban")) {
 			Bukkit.getPluginCommand("banvotecreate").setExecutor(new EventCreateBanVoteCommand());
 			Bukkit.getPluginCommand("banvote").setExecutor(new EventBanVoteCommand());
 		}
+		
+		EventPlayerMove.ncovIsEnabled = this.getConfig().getBoolean("featureSettings.coronaVirus");
+		EventPlayerMove.ncovTimeLeft = Bukkit.createBossBar("Coronavirus", BarColor.RED, BarStyle.SOLID, BarFlag.DARKEN_SKY);
 	}
 }

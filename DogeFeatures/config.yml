@@ -5,6 +5,7 @@ featureSettings: # Set value as false to disable them.
   ban: true
  hideOp: true
  pufferfish: true
+ coronaVirus: true
   
 voteSettings:
  #restart settings
