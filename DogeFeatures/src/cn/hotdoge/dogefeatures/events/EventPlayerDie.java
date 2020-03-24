@@ -1,13 +1,17 @@
-package cn.hotdoge.dogefeatures;
+package cn.hotdoge.dogefeatures.events;
 
 import java.util.Date;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import cn.hotdoge.dogefeatures.DogeFeatures;
+import cn.hotdoge.dogefeatures.vars.VarNcov;
 
 public class EventPlayerDie implements Listener {
 	@EventHandler
@@ -16,7 +20,11 @@ public class EventPlayerDie implements Listener {
 			try {
 				long lastEat = e.getEntity().getMetadata("timePufferfishLastEat").get(0).asLong();
 				if(new Date().getTime() - lastEat < 100000) {
-					e.setDeathMessage(e.getEntity().getName() + "ÒòÊ³ÓÃ¹ý¶àµÄ" + ChatColor.YELLOW + "°ÂÀû¸ø" + ChatColor.WHITE + "¶øÈ¥ÊÀÁË");
+					if(e.getEntity().getKiller() instanceof Player) {
+						e.setDeathMessage(e.getEntity().getName() + "é£Ÿç”¨è¿‡å¤šçš„" + ChatColor.YELLOW + "å¥¥åˆ©ç»™" + ChatColor.WHITE + "åŽè¢«" + e.getEntity().getKiller().getName() + "æ€æ­»äº†");
+					}else {
+						e.setDeathMessage(e.getEntity().getName() + "å› é£Ÿç”¨è¿‡å¤šçš„" + ChatColor.YELLOW + "å¥¥åˆ©ç»™" + ChatColor.WHITE + "è€ŒåŽ»ä¸–äº†");
+					}
 					e.getEntity().setMetadata("timePufferfishLastEat", new FixedMetadataValue(DogeFeatures.getPlugin(), 0));
 					return;
 				}
@@ -25,10 +33,14 @@ public class EventPlayerDie implements Listener {
 			}
 			
 			try {
-				if(!DogeFeatures.ncovLocationsInfoMap.get(e.getEntity().getUniqueId()).equals(null)) {
-					DogeFeatures.ncovLocationsInfoMap.remove(e.getEntity().getUniqueId());
-					EventPlayerMove.ncovTimeLeft.removePlayer(e.getEntity());
-					e.setDeathMessage(e.getEntity().getName() + "Òò¸ÐÈ¾Coronavirus¶øÈ¥ÊÀÁË");
+				if(VarNcov.ncovWhoHasArrayList.contains(e.getEntity().getUniqueId())) {
+					VarNcov.ncovWhoHasArrayList.remove(e.getEntity().getUniqueId());
+					VarNcov.ncovBossBar.removePlayer(e.getEntity());
+					if(e.getEntity().getKiller() instanceof Player) {
+						e.setDeathMessage(e.getEntity().getName() + "åœ¨æ„ŸæŸ“CoronavirusåŽè¢«" + e.getEntity().getKiller().getName() + "æ€æ­»äº†");
+					}else {
+						e.setDeathMessage(e.getEntity().getName() + "å› æ„ŸæŸ“Coronavirusè€ŒåŽ»ä¸–äº†");
+					}
 				}
 			} catch (Exception err) {
 				// To do nothing.

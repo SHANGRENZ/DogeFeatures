@@ -1,4 +1,4 @@
-package cn.hotdoge.dogefeatures;
+package cn.hotdoge.dogefeatures.events;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,6 +16,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import cn.hotdoge.dogefeatures.DogeFeatures;
+
 
 
 public class EventEatFood implements Listener {
@@ -28,7 +30,7 @@ public class EventEatFood implements Listener {
 			try {
 				if(p.getMetadata("isPufferfishJustEat").get(0).asBoolean()) {
 					e.setCancelled(true);
-					p.sendTitle(ChatColor.YELLOW + "¿ÚÇø¡ª¡ª", "Äã¶ÌÊ±¼ä²»ÄÜÊ³ÓÃÌ«¶àµÄ°ÂÀû¸ø", 5, 20, 5);
+					p.sendTitle(ChatColor.YELLOW + "å£åŒºâ€”â€”", "ä½ çŸ­æ—¶é—´ä¸èƒ½é£Ÿç”¨å¤ªå¤šçš„å¥¥åˆ©ç»™", 5, 20, 5);
 					return;
 				}
 			} catch (Exception e2) {
@@ -37,7 +39,7 @@ public class EventEatFood implements Listener {
 			
 			activeEffects = p.getActivePotionEffects();
 			
-			p.sendTitle(ChatColor.YELLOW + "¸ÉÁË °ÂÀï¸ø!", "¸É¾ÍÍêÊÂÁË", 10, 70, 10);
+			p.sendTitle(ChatColor.YELLOW + "å¹²äº† å¥¥é‡Œç»™!", "å¹²å°±å®Œäº‹äº†", 10, 70, 10);
 			
 			Bukkit.getScheduler().runTaskLater(DogeFeatures.getPlugin(), new Runnable() {
 				

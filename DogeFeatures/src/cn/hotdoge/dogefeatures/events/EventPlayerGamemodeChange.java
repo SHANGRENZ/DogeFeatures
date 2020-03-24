@@ -1,4 +1,4 @@
-package cn.hotdoge.dogefeatures;
+package cn.hotdoge.dogefeatures.events;
 
 import java.util.Arrays;
 
@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
+
+import cn.hotdoge.dogefeatures.DogeFeatures;
 
 public class EventPlayerGamemodeChange implements Listener {
 

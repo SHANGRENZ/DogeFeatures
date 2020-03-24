@@ -1,4 +1,4 @@
-package cn.hotdoge.dogefeatures;
+package cn.hotdoge.dogefeatures.events;
 
 import java.util.UUID;
 
@@ -11,6 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cn.hotdoge.dogefeatures.BanWantedPlayersObj;
+import cn.hotdoge.dogefeatures.DogeFeatures;
+import cn.hotdoge.dogefeatures.*;
 
 public class EventBanVoteCommand implements CommandExecutor {
 	
@@ -21,7 +24,7 @@ public class EventBanVoteCommand implements CommandExecutor {
 		try {
 			targetPlayerName = args[0];
 		} catch (Exception e) {
-			p.sendMessage("ÓÃ·¨:/banvote player Í¶Æ±/È¡ÏûÍ¶Æ±·â½ûÄ³¸öÍæ¼Ò");
+			p.sendMessage("ç”¨æ³•:/banvote player æŠ•ç¥¨/å–æ¶ˆæŠ•ç¥¨å°ç¦æŸä¸ªç©å®¶");
 			return true;
 		}
 		UUID targetPlayerUuid = DogeFeatures.getPlugin().getServer().getOfflinePlayer(targetPlayerName).getUniqueId();
@@ -34,15 +37,15 @@ public class EventBanVoteCommand implements CommandExecutor {
 				for(UUID uuidInList:pObj.Voted) {
 					if(uuidInList.equals(p.getUniqueId())) {
 						DogeFeatures.banWantedPlayers.get(x).Voted.remove(y);
-						p.sendMessage("ÒÑÈ¡Ïû·â½ûÍ¶Æ±");
+						p.sendMessage("å·²å–æ¶ˆå°ç¦æŠ•ç¥¨");
 						return true;
 					}
 					y++;
 				}
 				int banNeededPlayers = DogeFeatures.getPlugin().getConfig().getInt("voteSettings.banNeededPlayers");
 				DogeFeatures.banWantedPlayers.get(x).Voted.add(p.getUniqueId());
-				Bukkit.broadcastMessage(ChatColor.RED + "[·â½ûÍ¶Æ±]" + ChatColor.WHITE + " ¶ÔÍæ¼Ò " + ChatColor.YELLOW + targetPlayerName + " µÄ·â½ûÍ¶Æ±Êı: " + ChatColor.DARK_RED + String.valueOf(pObj.Voted.size()) + "/" + String.valueOf(banNeededPlayers));
-				p.sendMessage("Í¶Æ±³É¹¦");
+				Bukkit.broadcastMessage(ChatColor.RED + "[å°ç¦æŠ•ç¥¨]" + ChatColor.WHITE + " å¯¹ç©å®¶ " + ChatColor.YELLOW + targetPlayerName + " çš„å°ç¦æŠ•ç¥¨æ•°: " + ChatColor.DARK_RED + String.valueOf(pObj.Voted.size()) + "/" + String.valueOf(banNeededPlayers));
+				p.sendMessage("æŠ•ç¥¨æˆåŠŸ");
 				
 				if(pObj.Voted.size() >= banNeededPlayers) {
 					//ban a player
@@ -51,7 +54,7 @@ public class EventBanVoteCommand implements CommandExecutor {
 					if(targetPlayerObj.isOnline()) {
 						DogeFeatures.getPlugin().getServer().getPlayer(pObj.Player).kickPlayer("You are banned from this server.");
 					}
-					Bukkit.broadcastMessage(ChatColor.RED + "[·â½ûÍ¶Æ±] " + ChatColor.YELLOW + targetPlayerObj.getName() + ChatColor.RED + "ÒÑ±»·â½û");
+					Bukkit.broadcastMessage(ChatColor.RED + "[å°ç¦æŠ•ç¥¨] " + ChatColor.YELLOW + targetPlayerObj.getName() + ChatColor.RED + "å·²è¢«å°ç¦");
 					DogeFeatures.banWantedPlayers.remove(x);
 				}
 				return true;
@@ -59,7 +62,7 @@ public class EventBanVoteCommand implements CommandExecutor {
 			x++;
 		}
 		
-		p.sendMessage("ÎŞ·¨Í¶Æ±. ¸ÃÍæ¼ÒÃ»ÓĞ±»·¢ÆğÍ¶Æ±.");
+		p.sendMessage("æ— æ³•æŠ•ç¥¨. è¯¥ç©å®¶æ²¡æœ‰è¢«å‘èµ·æŠ•ç¥¨.");
 		return true;
 	}
 }

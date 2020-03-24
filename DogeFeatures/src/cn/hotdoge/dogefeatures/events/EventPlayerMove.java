@@ -1,6 +1,13 @@
-package cn.hotdoge.dogefeatures;
+package cn.hotdoge.dogefeatures.events;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarFlag;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,20 +16,29 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import cn.hotdoge.dogefeatures.DogeFeatures;
+import cn.hotdoge.dogefeatures.vars.*;
+import net.minecraft.server.v1_15_R1.EntityFox.o;
+
 
 public class EventPlayerMove implements Listener {
-
-	public static boolean ncovIsEnabled;
-	public static BossBar ncovTimeLeft;
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
-		if(ncovIsEnabled) {
+		Player p = e.getPlayer();
+		
+		if(VarWelcomeMessage.playersWhoCannotMove.contains(p.getUniqueId())) {
+			e.setCancelled(true);
+			p.sendTitle(VarWelcomeMessage.welcomeMessageTitleString, VarWelcomeMessage.welcomeMessageSubTitleString, 5, 40, 5);
+			return;
+		}
+		
+		
+		if(VarNcov.ncovIsEnabled) {
 			
-			Player p = e.getPlayer();
 			
 			try {
-				if(DogeFeatures.ncovLocationsInfoMap.get(p.getUniqueId()).equals(null)) return;
+				if(!VarNcov.ncovWhoHasArrayList.contains(p.getUniqueId())) return;
 			} catch (Exception err) {
 				return;
 			}
@@ -30,21 +46,24 @@ public class EventPlayerMove implements Listener {
 			for(PotionEffect effect:p.getActivePotionEffects()) {
 				if(effect.getType().equals(PotionEffectType.POISON)) {
 					for(Player pInList:Bukkit.getServer().getOnlinePlayers()) {
-						if(p.getWorld().equals(pInList.getWorld())) {
-							if(p.getLocation().distanceSquared(pInList.getLocation()) < 40) {
-								DogeFeatures.ncovLocationsInfoMap.put(pInList.getUniqueId(), pInList.getLocation());
-								pInList.removePotionEffect(PotionEffectType.POISON);
-								pInList.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 2000, 0));
-								ncovTimeLeft.addPlayer(pInList);
+						if(!p.getUniqueId().equals(pInList.getUniqueId())) {
+							if(p.getWorld().equals(pInList.getWorld())) {
+								if(p.getLocation().distanceSquared(pInList.getLocation()) < 40) {
+									if(!VarNcov.ncovWhoHasArrayList.contains(pInList.getUniqueId())) VarNcov.ncovWhoHasArrayList.add(pInList.getUniqueId());
+									pInList.removePotionEffect(PotionEffectType.POISON);
+									pInList.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 2000, 0));
+									VarNcov.ncovBossBar.addPlayer(pInList);
+								}
 							}
 						}
 					}
 					return;
 				}
 			}
-			DogeFeatures.ncovLocationsInfoMap.remove(p.getUniqueId());
-			ncovTimeLeft.removePlayer(p);
+			VarNcov.ncovWhoHasArrayList.remove(p.getUniqueId());
+			VarNcov.ncovBossBar.removePlayer(p);
 			
 		}
+		
 	}
 }

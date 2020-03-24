@@ -15,4 +15,10 @@ voteSettings:
  #ban settings
  banNeededPlayers: 10
 
-welcomeMessage: Welcome to this server!
+welcomeMessage:
+ title: '&b请仔细阅读用户协议'
+ subTitle: '输入英文明白以接受并开始游戏'
+ content:
+  - '&a欢迎来到这个美妙的服务器'
+  - '&b玩得开心!'
+ confirmMsg: 'understand'

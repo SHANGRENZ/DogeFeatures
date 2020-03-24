@@ -1,4 +1,4 @@
-package cn.hotdoge.dogefeatures;
+package cn.hotdoge.dogefeatures.events;
 
 
 import java.io.File;
@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
+import cn.hotdoge.dogefeatures.DogeFeatures;
 import net.minecraft.server.v1_15_R1.MinecraftServer;
 
 public class EventRestartVoteCommand implements CommandExecutor {
@@ -27,7 +28,7 @@ public class EventRestartVoteCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)) {
-			sender.sendMessage("·şÎñÆ÷»¹ĞèÒªÍ¶Æ±Âğ°¡Î¹!");
+			sender.sendMessage("æœåŠ¡å™¨è¿˜éœ€è¦æŠ•ç¥¨å—å•Šå–‚!");
 			return true;
 		}
 		
@@ -36,12 +37,12 @@ public class EventRestartVoteCommand implements CommandExecutor {
 		for(UUID uuidInList:DogeFeatures.votedPlayersRestart) {
 			if(uuidInList.equals(p.getUniqueId())) {
 				DogeFeatures.votedPlayersRestart.remove(uuidInList);
-				p.sendMessage("ÒÑÈ¡ÏûÍ¶Æ±");
+				p.sendMessage("å·²å–æ¶ˆæŠ•ç¥¨");
 				return true;
 			}
 		}
 		DogeFeatures.votedPlayersRestart.add(p.getUniqueId());
-		p.sendMessage("ÒÑÍ¶Æ±");
+		p.sendMessage("å·²æŠ•ç¥¨");
 		
 		double sizeVoted = DogeFeatures.votedPlayersRestart.size();
 		double neededPercent = DogeFeatures.getPlugin().getConfig().getDouble("voteSettings.restartPercent");
@@ -49,18 +50,18 @@ public class EventRestartVoteCommand implements CommandExecutor {
 		double tpsNow = MinecraftServer.getServer().recentTps[0];
 		double tpsNeeded = DogeFeatures.getPlugin().getConfig().getDouble("voteSettings.restartTps");
 		
-		Bukkit.broadcastMessage(ChatColor.GREEN + "[ÖØÆôÍ¶Æ±]" + ChatColor.WHITE + " ÓĞĞ¡¿É°®Ï£ÍûÖØÆô·şÎñÆ÷! " + ChatColor.YELLOW + String.valueOf((int)sizeVoted) + "/" + String.valueOf((int) Math.ceil(sizeAll * (neededPercent / 100))));
+		Bukkit.broadcastMessage(ChatColor.GREEN + "[é‡å¯æŠ•ç¥¨]" + ChatColor.WHITE + " æœ‰å°å¯çˆ±å¸Œæœ›é‡å¯æœåŠ¡å™¨! " + ChatColor.YELLOW + String.valueOf((int)sizeVoted) + "/" + String.valueOf((int) Math.ceil(sizeAll * (neededPercent / 100))));
 		if(sizeVoted / sizeAll * 100 >= neededPercent) {
 			if(tpsNow > tpsNeeded) {
-				Bukkit.broadcastMessage(ChatColor.GREEN + "[ÖØÆôÍ¶Æ±]" + ChatColor.WHITE + " ËäÈ»´ó¼Ò¶¼Í¬Òâ, µ«ÊÇÖ»ÓĞtpsĞ¡ÓÚ" + String.valueOf(tpsNeeded) + "Ê±²ÅÄÜÖØÆôÓ´~");
+				Bukkit.broadcastMessage(ChatColor.GREEN + "[é‡å¯æŠ•ç¥¨]" + ChatColor.WHITE + " è™½ç„¶å¤§å®¶éƒ½åŒæ„, ä½†æ˜¯åªæœ‰tpså°äº" + String.valueOf(tpsNeeded) + "æ—¶æ‰èƒ½é‡å¯å“Ÿ~");
 			} else {
-				Bukkit.broadcastMessage(ChatColor.GREEN + "[ÖØÆôÍ¶Æ±]" + ChatColor.YELLOW + " ·şÎñÆ÷½«ÔÚÊ®ÃëºóÖØÆô!");
+				Bukkit.broadcastMessage(ChatColor.GREEN + "[é‡å¯æŠ•ç¥¨]" + ChatColor.YELLOW + " æœåŠ¡å™¨å°†åœ¨åç§’åé‡å¯!");
 				restartTimeInt = 5;
 				Bukkit.getScheduler().runTaskTimer(DogeFeatures.getPlugin(), new Runnable() {
 					
 					@Override
 					public void run() {
-						Bukkit.broadcastMessage(ChatColor.YELLOW + "·şÎñÆ÷½«ÔÚ" + String.valueOf(restartTimeInt) + "ÃëºóÖØÆô.");
+						Bukkit.broadcastMessage(ChatColor.YELLOW + "æœåŠ¡å™¨å°†åœ¨" + String.valueOf(restartTimeInt) + "ç§’åé‡å¯.");
 						restartTimeInt--;
 						for(Player player:Bukkit.getOnlinePlayers()) {
 							player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1F);

@@ -1,4 +1,4 @@
-package cn.hotdoge.dogefeatures;
+package cn.hotdoge.dogefeatures.events;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cn.hotdoge.dogefeatures.BanWantedPlayersObj;
+import cn.hotdoge.dogefeatures.DogeFeatures;
+
 public class EventCreateBanVoteCommand implements CommandExecutor {
 	
 	@Override
@@ -22,7 +25,7 @@ public class EventCreateBanVoteCommand implements CommandExecutor {
 		try {
 			targetPlayerName = args[0];
 		} catch (Exception e) {
-			p.sendMessage("ÓÃ·¨:/banvotecreate player ·¢Æğ/É¾³ıÒ»¸ö·â½ûÍ¶Æ±");
+			p.sendMessage("ç”¨æ³•:/banvotecreate player å‘èµ·/åˆ é™¤ä¸€ä¸ªå°ç¦æŠ•ç¥¨");
 			return true;
 		}
 		UUID targetPlayerUuid = DogeFeatures.getPlugin().getServer().getOfflinePlayer(targetPlayerName).getUniqueId();
@@ -31,19 +34,19 @@ public class EventCreateBanVoteCommand implements CommandExecutor {
 		for(BanWantedPlayersObj pObj:DogeFeatures.banWantedPlayers) {
 			if(pObj.Player.equals(targetPlayerUuid)) {
 				if(!pObj.Creater.equals(p)) {
-					p.sendMessage("ÎŞ·¨·¢Æğ, ¸ÃÍæ¼ÒÒÑÓĞÒ»¸öÕıÔÚ½øĞĞÖĞµÄÍ¶Æ±. ·¢ÆğÕß: " + pObj.Creater.getName());
+					p.sendMessage("æ— æ³•å‘èµ·, è¯¥ç©å®¶å·²æœ‰ä¸€ä¸ªæ­£åœ¨è¿›è¡Œä¸­çš„æŠ•ç¥¨. å‘èµ·è€…: " + pObj.Creater.getName());
 					return true;
 				}
 				DogeFeatures.banWantedPlayers.remove(pObj);
-				p.sendMessage("ÒÑÈ¡Ïû¶ÔÍæ¼Ò " + targetPlayerName + " µÄ·â½ûÍ¶Æ±");
-				Bukkit.broadcastMessage(ChatColor.GREEN + "[·â½ûÍ¶Æ±] ¶ÔÍæ¼Ò" + ChatColor.YELLOW + targetPlayerName + ChatColor.GREEN + "µÄ·â½ûÍ¶Æ±È¡ÏûÁË");
+				p.sendMessage("å·²å–æ¶ˆå¯¹ç©å®¶ " + targetPlayerName + " çš„å°ç¦æŠ•ç¥¨");
+				Bukkit.broadcastMessage(ChatColor.GREEN + "[å°ç¦æŠ•ç¥¨] å¯¹ç©å®¶" + ChatColor.YELLOW + targetPlayerName + ChatColor.GREEN + "çš„å°ç¦æŠ•ç¥¨å–æ¶ˆäº†");
 				return true;
 			}
 		}
 		
 		DogeFeatures.banWantedPlayers.add(new BanWantedPlayersObj(targetPlayerUuid, new ArrayList<UUID>(), p));
-		p.sendMessage("ÒÑ·¢Æğ·â½ûÍæ¼Ò " + targetPlayerName + " µÄ·â½ûÍ¶Æ±");
-		Bukkit.broadcastMessage(ChatColor.RED + "[·â½ûÍ¶Æ±] ÓĞÈË·¢ÆğÁË¶ÔÍæ¼Ò" + ChatColor.YELLOW + targetPlayerName + ChatColor.RED + "µÄ·â½ûÍ¶Æ±");
+		p.sendMessage("å·²å‘èµ·å°ç¦ç©å®¶ " + targetPlayerName + " çš„å°ç¦æŠ•ç¥¨");
+		Bukkit.broadcastMessage(ChatColor.RED + "[å°ç¦æŠ•ç¥¨] æœ‰äººå‘èµ·äº†å¯¹ç©å®¶" + ChatColor.YELLOW + targetPlayerName + ChatColor.RED + "çš„å°ç¦æŠ•ç¥¨");
 		
 		return true;
 	}
